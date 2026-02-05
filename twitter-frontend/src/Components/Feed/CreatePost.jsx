@@ -13,6 +13,7 @@ const CreatePost = () => {
                         <h1 className='font-bold'> Following</h1>
                     </div>
                 </div>
+                
             </div>
 
         </div>
