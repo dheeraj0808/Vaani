@@ -1,14 +1,16 @@
-import { useState } from 'react'
-import MainLayout from './MainLayout'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LandingPage from './Pages/LandingPage';
+import MainLayout from './MainLayout';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <MainLayout />
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/home" element={<MainLayout />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
