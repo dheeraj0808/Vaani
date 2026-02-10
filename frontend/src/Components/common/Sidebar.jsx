@@ -12,14 +12,14 @@ const Sidebar = () => {
     ];
 
     return (
-        <aside className="w-64 h-screen sticky top-0 p-4">
+        <aside className="w-64 fixed left-0 top-16 bottom-0 p-4 overflow-y-auto">
             <div className="space-y-2">
                 {menuItems.map((item, index) => (
                     <div
                         key={index}
                         className={`flex items-center gap-4 px-4 py-3 rounded-full cursor-pointer transition-colors ${item.active
-                                ? 'font-bold'
-                                : 'hover:bg-gray-900'
+                            ? 'font-bold'
+                            : 'hover:bg-gray-900'
                             }`}
                     >
                         <span className="text-xl">{item.icon}</span>

@@ -11,7 +11,8 @@ const Home = () => {
             <Navbar />
             <div className="flex">
                 <Sidebar />
-                <main className="flex-1 border-x border-gray-800 max-w-xl">
+                {/* Main content with left margin to account for fixed sidebar */}
+                <main className="flex-1 border-x border-gray-800 max-w-xl ml-64">
                     <StoryBar />
                     <PostInput />
                     <PostCard />
