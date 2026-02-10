@@ -1,7 +1,7 @@
 export const formatDate = (date) => {
     const now = new Date();
-    const tweetDate = new Date(date);
-    const diffInSeconds = Math.floor((now - tweetDate) / 1000);
+    const postDate = new Date(date);
+    const diffInSeconds = Math.floor((now - postDate) / 1000);
 
     if (diffInSeconds < 60) {
         return `${diffInSeconds}s`;

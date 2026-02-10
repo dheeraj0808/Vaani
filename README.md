@@ -1,6 +1,6 @@
 # Vaani
 
-A full-stack Twitter clone application built with React.js (frontend) and Node.js (backend) implementing core social media features.
+A full-stack Vaani social media application built with React.js (frontend) and Node.js (backend) implementing core social media features.
 
 ## Project Structure
 
@@ -74,7 +74,7 @@ PORT=5000
 NODE_ENV=development
 
 # Database Configuration
-MONGODB_URI=mongodb://localhost:27017/twitter-clone
+MONGODB_URI=mongodb://localhost:27017/vaani
 
 # JWT Configuration
 JWT_SECRET=your-super-secret-jwt-key-change-this-in-production

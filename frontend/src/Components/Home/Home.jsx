@@ -1,8 +1,8 @@
 import React from 'react';
 import Sidebar from '../common/Sidebar';
 import Navbar from '../common/Navbar';
-import TweetInput from '../tweet/TweetInput';
-import TweetCard from '../tweet/TweetCard';
+import PostInput from '../post/PostInput';
+import PostCard from '../post/PostCard';
 import StoryBar from '../story/StoryBar';
 
 const Home = () => {
@@ -13,8 +13,8 @@ const Home = () => {
                 <Sidebar />
                 <main className="flex-1 border-x border-gray-800 max-w-xl">
                     <StoryBar />
-                    <TweetInput />
-                    <TweetCard />
+                    <PostInput />
+                    <PostCard />
                 </main>
             </div>
         </div>

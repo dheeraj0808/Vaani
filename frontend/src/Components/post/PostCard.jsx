@@ -1,13 +1,13 @@
 import React from 'react';
 
-const TweetCard = () => {
-    const sampleTweet = {
+const PostCard = () => {
+    const samplePost = {
         user: {
             name: 'John Doe',
             handle: '@johndoe',
             avatar: null,
         },
-        content: 'Just setting up my Twitter clone! 🚀 This is going to be amazing.',
+        content: 'Just setting up my Vaani account! 🚀 This is going to be amazing.',
         timestamp: '2h',
         likes: 42,
         retweets: 12,
@@ -20,21 +20,21 @@ const TweetCard = () => {
                 <div className="w-12 h-12 bg-gray-600 rounded-full flex-shrink-0"></div>
                 <div className="flex-1">
                     <div className="flex items-center gap-2">
-                        <span className="font-bold">{sampleTweet.user.name}</span>
-                        <span className="text-gray-500">{sampleTweet.user.handle}</span>
+                        <span className="font-bold">{samplePost.user.name}</span>
+                        <span className="text-gray-500">{samplePost.user.handle}</span>
                         <span className="text-gray-500">·</span>
-                        <span className="text-gray-500">{sampleTweet.timestamp}</span>
+                        <span className="text-gray-500">{samplePost.timestamp}</span>
                     </div>
-                    <p className="mt-2">{sampleTweet.content}</p>
+                    <p className="mt-2">{samplePost.content}</p>
                     <div className="flex justify-between mt-4 max-w-md text-gray-500">
                         <button className="flex items-center gap-2 hover:text-blue-500">
-                            💬 <span>{sampleTweet.replies}</span>
+                            💬 <span>{samplePost.replies}</span>
                         </button>
                         <button className="flex items-center gap-2 hover:text-green-500">
-                            🔁 <span>{sampleTweet.retweets}</span>
+                            🔁 <span>{samplePost.retweets}</span>
                         </button>
                         <button className="flex items-center gap-2 hover:text-pink-500">
-                            ❤️ <span>{sampleTweet.likes}</span>
+                            ❤️ <span>{samplePost.likes}</span>
                         </button>
                         <button className="flex items-center gap-2 hover:text-blue-500">
                             📤
@@ -46,4 +46,4 @@ const TweetCard = () => {
     );
 };
 
-export default TweetCard;
+export default PostCard;

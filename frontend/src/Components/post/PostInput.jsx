@@ -1,13 +1,13 @@
 import React from 'react';
 
-const TweetInput = () => {
+const PostInput = () => {
     return (
         <div className="border-b border-gray-800 p-4">
             <div className="flex gap-4">
                 <div className="w-12 h-12 bg-gray-600 rounded-full flex-shrink-0"></div>
                 <div className="flex-1">
                     <textarea
-                        placeholder="What is happening?!"
+                        placeholder="What's happening?!"
                         className="w-full bg-transparent text-xl text-white placeholder-gray-500 resize-none outline-none min-h-[80px]"
                     />
                     <div className="flex items-center justify-between pt-4 border-t border-gray-800">
@@ -27,4 +27,4 @@ const TweetInput = () => {
     );
 };
 
-export default TweetInput;
+export default PostInput;
