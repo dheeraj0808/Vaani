@@ -1,5 +1,5 @@
 const app = require('./app');
-const connectDB = require('./config/db');
+const { connectDB } = require('./config/mysql');
 const { port } = require('./config/env');
 
 // Connect to database
