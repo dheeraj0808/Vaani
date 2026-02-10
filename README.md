@@ -1,4 +1,4 @@
-# Twitter Clone
+# Vaani
 
 A full-stack Twitter clone application built with React.js (frontend) and Node.js (backend) implementing core social media features.
 
