@@ -13,7 +13,7 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
 
     const decodedToken = verifyToken(token);
 
-    const user = await User.findById(decodedToken._id).select('-password -refreshToken');
+    const user = await User.findById(decodedToken._id, ['password', 'refresh_token']);
 
     if (!user) {
       throw new ApiError(401, 'Invalid Access Token');

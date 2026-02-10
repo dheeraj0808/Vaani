@@ -1,82 +1,96 @@
-const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const { pool } = require('../config/mysql');
 
-const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-    minlength: 3,
-    maxlength: 30
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-    lowercase: true
-  },
-  password: {
-    type: String,
-    required: true,
-    minlength: 6
-  },
-  fullName: {
-    type: String,
-    required: true,
-    trim: true,
-    maxlength: 50
-  },
-  bio: {
-    type: String,
-    maxlength: 160,
-    default: ''
-  },
-  avatar: {
-    type: String,
-    default: ''
-  },
-  coverImage: {
-    type: String,
-    default: ''
-  },
-  followers: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }],
-  following: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }],
-  role: {
-    type: String,
-    enum: ['user', 'admin'],
-    default: 'user'
-  },
-  isVerified: {
-    type: Boolean,
-    default: false
+class User {
+  // Create a new user
+  static async create({ username, email, password, fullName }) {
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const [result] = await pool.query(
+      'INSERT INTO users (username, email, password, full_name) VALUES (?, ?, ?, ?)',
+      [username, email, hashedPassword, fullName]
+    );
+    return await User.findById(result.insertId);
   }
-}, {
-  timestamps: true
-});
 
-userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) return next();
-  
-  this.password = await bcrypt.hash(this.password, 12);
-  next();
-});
+  // Find user by ID
+  static async findById(id, excludeFields = []) {
+    let selectFields = '*';
+    if (excludeFields.length > 0) {
+      const allFields = ['id', 'username', 'email', 'password', 'full_name', 'bio', 'avatar', 'cover_image', 'role', 'is_verified', 'refresh_token', 'created_at', 'updated_at'];
+      const fields = allFields.filter(f => !excludeFields.includes(f));
+      selectFields = fields.join(', ');
+    }
+    const [rows] = await pool.query(`SELECT ${selectFields} FROM users WHERE id = ?`, [id]);
+    return rows[0] || null;
+  }
 
-userSchema.methods.isPasswordCorrect = async function(password) {
-  return await bcrypt.compare(password, this.password);
-};
+  // Find user by username or email
+  static async findByUsernameOrEmail(username, email) {
+    const [rows] = await pool.query(
+      'SELECT * FROM users WHERE username = ? OR email = ?',
+      [username || '', email || '']
+    );
+    return rows[0] || null;
+  }
 
-userSchema.methods.toJSON = function() {
-  const user = this.toObject();
-  delete user.password;
-  return user;
-};
+  // Find user by email
+  static async findByEmail(email) {
+    const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
+    return rows[0] || null;
+  }
 
-module.exports = mongoose.model('User', userSchema);
+  // Find user by username
+  static async findByUsername(username) {
+    const [rows] = await pool.query('SELECT * FROM users WHERE username = ?', [username]);
+    return rows[0] || null;
+  }
+
+  // Update user fields
+  static async updateById(id, updates) {
+    const fields = [];
+    const values = [];
+    for (const [key, value] of Object.entries(updates)) {
+      fields.push(`${key} = ?`);
+      values.push(value);
+    }
+    values.push(id);
+    await pool.query(`UPDATE users SET ${fields.join(', ')} WHERE id = ?`, values);
+    return await User.findById(id);
+  }
+
+  // Compare password
+  static async isPasswordCorrect(inputPassword, hashedPassword) {
+    return await bcrypt.compare(inputPassword, hashedPassword);
+  }
+
+  // Get follower count
+  static async getFollowerCount(userId) {
+    const [rows] = await pool.query('SELECT COUNT(*) as count FROM followers WHERE following_id = ?', [userId]);
+    return rows[0].count;
+  }
+
+  // Get following count
+  static async getFollowingCount(userId) {
+    const [rows] = await pool.query('SELECT COUNT(*) as count FROM followers WHERE follower_id = ?', [userId]);
+    return rows[0].count;
+  }
+
+  // Follow user
+  static async follow(followerId, followingId) {
+    await pool.query('INSERT IGNORE INTO followers (follower_id, following_id) VALUES (?, ?)', [followerId, followingId]);
+  }
+
+  // Unfollow user
+  static async unfollow(followerId, followingId) {
+    await pool.query('DELETE FROM followers WHERE follower_id = ? AND following_id = ?', [followerId, followingId]);
+  }
+
+  // Convert user object to safe JSON (remove password)
+  static toJSON(user) {
+    if (!user) return null;
+    const { password, refresh_token, ...safeUser } = user;
+    return safeUser;
+  }
+}
+
+module.exports = User;

@@ -1,88 +1,69 @@
 const User = require('../models/user.model');
 const ApiError = require('../utils/ApiError');
-const asyncHandler = require('../utils/asyncHandler');
 const { generateAccessToken, generateRefreshToken } = require('./token.service');
 
-const registerUser = asyncHandler(async (userData) => {
+const registerUser = async (userData) => {
   const { username, email, password, fullName } = userData;
 
-  const existingUser = await User.findOne({
-    $or: [{ username }, { email }]
-  });
+  // Check if user already exists
+  const existingUser = await User.findByUsernameOrEmail(username, email);
 
   if (existingUser) {
     throw new ApiError(409, 'User with this username or email already exists');
   }
 
-  const user = await User.create({
-    username,
-    email,
-    password,
-    fullName
-  });
+  // Create user (password hashing happens inside User.create)
+  const user = await User.create({ username, email, password, fullName });
 
-  const createdUser = await User.findById(user._id);
-
-  if (!createdUser) {
+  if (!user) {
     throw new ApiError(500, 'Something went wrong while registering the user');
   }
 
-  const accessToken = generateAccessToken(createdUser._id);
-  const refreshToken = generateRefreshToken(createdUser._id);
+  const accessToken = generateAccessToken(user.id);
+  const refreshToken = generateRefreshToken(user.id);
 
-  createdUser.refreshToken = refreshToken;
-  await createdUser.save();
+  // Save refresh token
+  await User.updateById(user.id, { refresh_token: refreshToken });
 
   return {
-    user: createdUser,
+    user: User.toJSON(user),
     accessToken,
     refreshToken
   };
-});
+};
 
-const loginUser = asyncHandler(async (loginData) => {
+const loginUser = async (loginData) => {
   const { username, email, password } = loginData;
 
-  const user = await User.findOne({
-    $or: [{ username }, { email }]
-  });
+  // Find user by username or email
+  const user = await User.findByUsernameOrEmail(username, email);
 
   if (!user) {
     throw new ApiError(404, 'User does not exist');
   }
 
-  const isPasswordValid = await user.isPasswordCorrect(password);
+  const isPasswordValid = await User.isPasswordCorrect(password, user.password);
 
   if (!isPasswordValid) {
     throw new ApiError(401, 'Invalid user credentials');
   }
 
-  const accessToken = generateAccessToken(user._id);
-  const refreshToken = generateRefreshToken(user._id);
+  const accessToken = generateAccessToken(user.id);
+  const refreshToken = generateRefreshToken(user.id);
 
-  user.refreshToken = refreshToken;
-  await user.save();
+  // Save refresh token
+  await User.updateById(user.id, { refresh_token: refreshToken });
 
   return {
-    user,
+    user: User.toJSON(user),
     accessToken,
     refreshToken
   };
-});
+};
 
-const logoutUser = asyncHandler(async (userId) => {
-  await User.findByIdAndUpdate(
-    userId,
-    {
-      $unset: {
-        refreshToken: 1
-      }
-    },
-    {
-      new: true
-    }
-  );
-});
+const logoutUser = async (userId) => {
+  await User.updateById(userId, { refresh_token: null });
+};
 
 module.exports = {
   registerUser,
