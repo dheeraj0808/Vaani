@@ -1,14 +1,19 @@
 {
-  "name": "twitter-clone-backend",
+  "name": "vaani-backend",
   "version": "1.0.0",
-  "description": "Backend for Twitter Clone application",
+  "description": "Backend for Vaani application",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "test": "jest"
   },
-  "keywords": ["twitter", "clone", "social", "media", "backend"],
+  "keywords": [
+    "vaani",
+    "social",
+    "media",
+    "backend"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
