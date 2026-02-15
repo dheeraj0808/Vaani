@@ -87,7 +87,7 @@ const LandingPage = () => {
             </div>
 
             {/* Left side - Branding */}
-            <div className="hidden lg:flex flex-1 items-center justify-center relative z-10 p-12">
+            <div className="hidden lg:flex flex-1 items-center justify-center relative z-10 p-12 min-h-screen">
                 <div className="max-w-lg space-y-8">
                     {/* Logo */}
                     <div className="space-y-4">
@@ -145,28 +145,6 @@ const LandingPage = () => {
 
                     {/* Auth Card */}
                     <div className="bg-gray-900/80 backdrop-blur-xl rounded-3xl border border-gray-800/80 p-8 shadow-2xl shadow-black/50">
-                        {/* Toggle tabs */}
-                        <div className="flex mb-8 bg-gray-800/50 rounded-2xl p-1.5">
-                            <button
-                                onClick={() => { if (!isLogin) toggleMode(); }}
-                                className={`flex-1 py-3 rounded-xl text-sm font-bold transition-all duration-300 ${isLogin
-                                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/30'
-                                    : 'text-gray-400 hover:text-gray-300'
-                                    }`}
-                            >
-                                Login
-                            </button>
-                            <button
-                                onClick={() => { if (isLogin) toggleMode(); }}
-                                className={`flex-1 py-3 rounded-xl text-sm font-bold transition-all duration-300 ${!isLogin
-                                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/30'
-                                    : 'text-gray-400 hover:text-gray-300'
-                                    }`}
-                            >
-                                Sign Up
-                            </button>
-                        </div>
-
                         {/* Header */}
                         <div className="mb-6">
                             <h2 className="text-2xl font-bold text-white">
