@@ -1,9 +1,9 @@
 import React from 'react';
-import Sidebar from '../common/Sidebar';
-import Navbar from '../common/Navbar';
-import PostInput from '../post/PostInput';
-import PostCard from '../post/PostCard';
-import StoryBar from '../story/StoryBar';
+import Sidebar from '../components/layout/Sidebar';
+import Navbar from '../components/layout/Navbar';
+import PostInput from '../components/post/PostInput';
+import PostCard from '../components/post/PostCard';
+import StoryBar from '../components/story/StoryBar';
 
 const Home = () => {
     return (
