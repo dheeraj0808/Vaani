@@ -40,8 +40,8 @@ const Sidebar = () => {
                     <Rocket className="text-white w-6 h-6 fill-white" />
                 </div>
                 <div>
-                    <h1 className="text-white font-bold text-lg leading-tight uppercase tracking-wide">Nexus UI</h1>
-                    <p className="text-blue-500/60 text-[10px] font-black uppercase tracking-widest leading-none">SAAS PRO</p>
+                    <h1 className="text-white font-bold text-lg leading-tight uppercase tracking-wide">Vaani</h1>
+                    <p className="text-blue-500/60 text-[10px] font-black uppercase tracking-widest leading-none">Social Media</p>
                 </div>
             </div>
 
@@ -51,8 +51,8 @@ const Sidebar = () => {
                     <div
                         key={index}
                         className={`group px-4 py-3 rounded-xl flex items-center gap-4 cursor-pointer transition-all duration-200 ${item.active
-                                ? 'bg-blue-600/10 text-blue-500'
-                                : 'text-gray-400 hover:bg-gray-800/50 hover:text-white'
+                            ? 'bg-blue-600/10 text-blue-500'
+                            : 'text-gray-400 hover:bg-gray-800/50 hover:text-white'
                             }`}
                     >
                         <div className="relative">
@@ -107,12 +107,21 @@ const Sidebar = () => {
                         <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-500 rounded-full border-[3px] border-[#0a0c14]" />
                     </div>
                     <div className="flex-1 min-w-0">
-                        <p className="text-sm font-bold text-white truncate leading-tight">
-                            {user?.full_name || 'Alex Rivera'}
-                        </p>
-                        <p className="text-gray-500 text-xs truncate leading-tight mt-0.5">
-                            @{user?.username || 'arivera_dev'}
-                        </p>
+                        {user ? (
+                            <div className="flex flex-col">
+                                <p className="text-sm font-bold text-white truncate leading-tight">
+                                    {user.full_name}
+                                </p>
+                                <p className="text-gray-500 text-xs truncate leading-tight mt-0.5">
+                                    @{user.username}
+                                </p>
+                            </div>
+                        ) : (
+                            <div className="space-y-2">
+                                <div className="h-3 w-20 bg-gray-800 rounded animate-pulse" />
+                                <div className="h-2 w-16 bg-gray-800 rounded animate-pulse" />
+                            </div>
+                        )}
                     </div>
                     <MoreVertical className="w-5 h-5 text-gray-500 group-hover:text-white transition-colors" />
                 </div>
