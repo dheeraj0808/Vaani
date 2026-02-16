@@ -1,7 +1,9 @@
 import React from 'react';
 import { Home, Hash, Bell, Mail, List, User, Settings, PenSquare } from 'lucide-react';
+import { useAuthContext } from '../../context/AuthContext';
 
 const Sidebar = () => {
+    const { user } = useAuthContext();
     const menuItems = [
         { icon: Home, label: 'Home', active: true },
         { icon: Hash, label: 'Explore' },
@@ -41,11 +43,22 @@ const Sidebar = () => {
                 <span>Post</span>
             </button>
 
-            <div className="mt-auto p-4 flex items-center gap-3 hover:bg-gray-900 rounded-full cursor-pointer transition-colors">
-                <div className="w-10 h-10 bg-gray-700 rounded-full"></div>
+            <div className="mt-auto p-4 flex items-center gap-3 hover:bg-gray-900 rounded-full cursor-pointer transition-colors max-w-full overflow-hidden">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex-shrink-0 flex items-center justify-center text-white font-bold">
+                    {user ? user.fullName?.charAt(0) : <div className="w-5 h-5 bg-gray-600 rounded-full animate-pulse" />}
+                </div>
                 <div className="flex-1 min-w-0">
-                    <p className="font-bold truncate">User Name</p>
-                    <p className="text-gray-500 text-sm truncate">@username</p>
+                    {user ? (
+                        <>
+                            <p className="font-bold truncate text-white">{user.fullName}</p>
+                            <p className="text-gray-500 text-sm truncate">@{user.username}</p>
+                        </>
+                    ) : (
+                        <div className="space-y-1">
+                            <div className="h-4 w-24 bg-gray-800 rounded animate-pulse" />
+                            <div className="h-3 w-16 bg-gray-800 rounded animate-pulse" />
+                        </div>
+                    )}
                 </div>
             </div>
         </aside>
