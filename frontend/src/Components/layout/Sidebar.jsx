@@ -43,24 +43,24 @@ const Sidebar = () => {
                 <span>Post</span>
             </button>
 
-            <div className="mt-auto p-4 flex items-center gap-3 hover:bg-gray-900 rounded-full cursor-pointer transition-colors max-w-full overflow-hidden">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex-shrink-0 flex items-center justify-center text-white font-bold">
-                    {user ? user.full_name?.charAt(0) : <div className="w-5 h-5 bg-gray-600 rounded-full animate-pulse" />}
-                </div>
-                <div className="flex-1 min-w-0">
-                    {user ? (
-                        <>
+            <div className="mt-auto pt-6">
+                <div className="px-4 py-3 flex items-center gap-3 hover:bg-gray-900 rounded-full cursor-pointer transition-colors max-w-full overflow-hidden group">
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex-shrink-0 flex items-center justify-center text-white font-bold">
+                        {user ? user.full_name?.charAt(0) : <div className="w-5 h-5 bg-gray-600 rounded-full animate-pulse" />}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                        {user ? (
                             <div className="flex flex-col">
                                 <p className="font-bold truncate text-white leading-tight">{user.full_name}</p>
                                 <p className="text-gray-500 text-sm truncate leading-tight">@{user.username}</p>
                             </div>
-                        </>
-                    ) : (
-                        <div className="space-y-1">
-                            <div className="h-4 w-24 bg-gray-800 rounded animate-pulse" />
-                            <div className="h-3 w-16 bg-gray-800 rounded animate-pulse" />
-                        </div>
-                    )}
+                        ) : (
+                            <div className="space-y-1">
+                                <div className="h-4 w-24 bg-gray-800 rounded animate-pulse" />
+                                <div className="h-3 w-16 bg-gray-800 rounded animate-pulse" />
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </aside>
