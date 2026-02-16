@@ -8,7 +8,7 @@ const PostInput = () => {
         <div className="border-b border-gray-800 p-4">
             <div className="flex gap-4">
                 <div className="w-12 h-12 bg-blue-600 rounded-full flex-shrink-0 flex items-center justify-center text-white font-bold text-xl">
-                    {user ? user.fullName?.charAt(0) : 'V'}
+                    {user ? user.full_name?.charAt(0) : 'V'}
                 </div>
                 <div className="flex-1">
                     <textarea
