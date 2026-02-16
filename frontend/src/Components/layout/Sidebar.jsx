@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
     Rocket,
     Home,
@@ -16,7 +17,13 @@ import {
 import { useAuthContext } from '../../context/AuthContext';
 
 const Sidebar = () => {
-    const { user } = useAuthContext();
+    const { user, logout } = useAuthContext();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/');
+    };
 
     const menuItems = [
         { icon: Home, label: 'Home', active: true, color: 'text-blue-500' },
@@ -126,7 +133,10 @@ const Sidebar = () => {
                     <MoreVertical className="w-5 h-5 text-gray-500 group-hover:text-white transition-colors" />
                 </div>
 
-                <div className="mt-4 px-4 py-3 flex items-center gap-4 text-gray-500 hover:text-red-400 cursor-pointer transition-all group">
+                <div
+                    onClick={handleLogout}
+                    className="mt-4 px-4 py-3 flex items-center gap-4 text-gray-400 hover:text-red-400 cursor-pointer transition-all group"
+                >
                     <LogOut className="w-6 h-6 group-hover:rotate-12 transition-transform" />
                     <span className="text-base font-medium">Logout</span>
                 </div>
