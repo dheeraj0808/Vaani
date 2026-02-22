@@ -37,11 +37,16 @@ const LandingPage = () => {
         try {
             if (isLogin) {
                 // Login
-                const response = await loginAPI({
-                    email: formData.email,
-                    username: formData.email, // Allow either
+                const isEmail = formData.email.includes('@');
+                const loginPayload = {
                     password: formData.password
-                });
+                };
+                if (isEmail) {
+                    loginPayload.email = formData.email;
+                } else {
+                    loginPayload.username = formData.email;
+                }
+                const response = await loginAPI(loginPayload);
                 localStorage.setItem('token', response.data.accessToken);
                 navigate('/home');
             } else {
