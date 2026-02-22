@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
     Rocket,
     Home,
@@ -19,6 +19,7 @@ import { useAuthContext } from '../../context/AuthContext';
 const Sidebar = () => {
     const { user, logout } = useAuthContext();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleLogout = () => {
         logout();
@@ -26,21 +27,21 @@ const Sidebar = () => {
     };
 
     const menuItems = [
-        { icon: Home, label: 'Home', active: true, color: 'text-blue-500' },
-        { icon: Compass, label: 'Explore' },
-        { icon: Film, label: 'Reels' },
-        { icon: Mail, label: 'Messages', badge: '3' },
-        { icon: Bell, label: 'Notifications', dot: true },
-        { icon: AtSign, label: 'Threads' },
+        { icon: Home, label: 'Home', path: '/home' },
+        { icon: Compass, label: 'Explore', path: '/explore' },
+        { icon: Film, label: 'Reels', path: '/reels' },
+        { icon: Mail, label: 'Messages', badge: '3', path: '/messages' },
+        { icon: Bell, label: 'Notifications', dot: true, path: '/notifications' },
+        { icon: AtSign, label: 'Threads', path: '/threads' },
     ];
 
     const secondaryItems = [
-        { icon: User, label: 'Profile' },
-        { icon: Settings, label: 'Settings' },
+        { icon: User, label: 'Profile', path: '/profile' },
+        { icon: Settings, label: 'Settings', path: '/settings' },
     ];
 
     return (
-        <aside className="w-[280px] fixed left-0 top-0 bottom-0 bg-[#0a0c14] border-r border-gray-800/50 flex flex-col pt-6 pb-4">
+        <aside className="w-[280px] fixed left-0 top-0 bottom-0 bg-[#0a0c14] border-r border-gray-800/50 flex flex-col pt-6 pb-4 z-50">
             {/* Logo Section */}
             <div className="px-6 mb-8 flex items-center gap-3">
                 <div className="w-11 h-11 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/20 transform hover:scale-105 transition-transform cursor-pointer">
@@ -54,42 +55,53 @@ const Sidebar = () => {
 
             {/* Navigation Section */}
             <nav className="flex-1 px-3 space-y-1 overflow-y-auto custom-scrollbar">
-                {menuItems.map((item, index) => (
-                    <div
-                        key={index}
-                        className={`group px-4 py-3 rounded-xl flex items-center gap-4 cursor-pointer transition-all duration-200 ${item.active
-                            ? 'bg-blue-600/10 text-blue-500'
-                            : 'text-gray-400 hover:bg-gray-800/50 hover:text-white'
-                            }`}
-                    >
-                        <div className="relative">
-                            <item.icon className={`w-6 h-6 ${item.active ? 'stroke-[2.5px]' : 'stroke-2'}`} />
-                            {item.dot && (
-                                <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-blue-500 rounded-full border-2 border-[#0a0c14]" />
+                {menuItems.map((item, index) => {
+                    const isActive = location.pathname === item.path;
+                    return (
+                        <div
+                            key={index}
+                            onClick={() => navigate(item.path)}
+                            className={`group px-4 py-3 rounded-xl flex items-center gap-4 cursor-pointer transition-all duration-200 ${isActive
+                                ? 'bg-blue-600/10 text-blue-500'
+                                : 'text-gray-400 hover:bg-gray-800/50 hover:text-white'
+                                }`}
+                        >
+                            <div className="relative">
+                                <item.icon className={`w-6 h-6 ${isActive ? 'stroke-[2.5px]' : 'stroke-2'}`} />
+                                {item.dot && (
+                                    <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-blue-500 rounded-full border-2 border-[#0a0c14]" />
+                                )}
+                            </div>
+                            <span className={`text-base flex-1 ${isActive ? 'font-bold' : 'font-medium'}`}>
+                                {item.label}
+                            </span>
+                            {item.badge && (
+                                <span className="bg-blue-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">
+                                    {item.badge}
+                                </span>
                             )}
                         </div>
-                        <span className={`text-base flex-1 ${item.active ? 'font-bold' : 'font-medium'}`}>
-                            {item.label}
-                        </span>
-                        {item.badge && (
-                            <span className="bg-blue-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">
-                                {item.badge}
-                            </span>
-                        )}
-                    </div>
-                ))}
+                    );
+                })}
 
                 <div className="my-6 border-t border-gray-800/50" />
 
-                {secondaryItems.map((item, index) => (
-                    <div
-                        key={index}
-                        className="group px-4 py-3 rounded-xl flex items-center gap-4 text-gray-400 hover:bg-gray-800/50 hover:text-white cursor-pointer transition-all duration-200"
-                    >
-                        <item.icon className="w-6 h-6 stroke-2" />
-                        <span className="text-base font-medium">{item.label}</span>
-                    </div>
-                ))}
+                {secondaryItems.map((item, index) => {
+                    const isActive = location.pathname === item.path;
+                    return (
+                        <div
+                            key={index}
+                            onClick={() => navigate(item.path)}
+                            className={`group px-4 py-3 rounded-xl flex items-center gap-4 cursor-pointer transition-all duration-200 ${isActive
+                                ? 'bg-gray-800/80 text-white'
+                                : 'text-gray-400 hover:bg-gray-800/50 hover:text-white'
+                                }`}
+                        >
+                            <item.icon className={`w-6 h-6 ${isActive ? 'stroke-[2.5px]' : 'stroke-2'}`} />
+                            <span className={`text-base ${isActive ? 'font-bold' : 'font-medium'}`}>{item.label}</span>
+                        </div>
+                    );
+                })}
             </nav>
 
             {/* Search Section */}
@@ -106,7 +118,7 @@ const Sidebar = () => {
 
             {/* User Profile Section */}
             <div className="px-3 pt-4 border-t border-gray-800/50">
-                <div className="bg-gray-800/20 rounded-2xl p-3 flex items-center gap-3 hover:bg-gray-800/40 cursor-pointer transition-all group">
+                <div onClick={() => navigate('/profile')} className="bg-gray-800/20 rounded-2xl p-3 flex items-center gap-3 hover:bg-gray-800/40 cursor-pointer transition-all group">
                     <div className="relative flex-shrink-0">
                         <div className="w-11 h-11 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-inner">
                             {user?.full_name?.charAt(0) || 'R'}
