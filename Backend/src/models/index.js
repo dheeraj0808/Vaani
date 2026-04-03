@@ -1,10 +1,10 @@
 module.exports = {
-    User: require('./user.model'),
-    Comment: require('./comment.model'),
-    Follow: require('./follow.model'),
-    Like: require('./like.model'),
-    Message: require('./message.model'),
-    Notification: require('./notification.model'),
-    Post: require('./post.model'),
-    Story: require('./story.model'),
+    User: require('../module/User/user.model'),
+    Comment: require('../module/Comment/entity/comment.model'),
+    Follow: require('../module/Follow/follow.model'),
+    Like: require('../module/Like/like.model'),
+    Message: require('../module/Message/message.model'),
+    Notification: require('../module/Notification/notification.model'),
+    Post: require('../module/Post/post.model'),
+    Story: require('../module/Story/story.model'),
 };
